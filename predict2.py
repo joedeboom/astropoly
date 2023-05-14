@@ -10,6 +10,7 @@ from utils.data_utils import fits2matrix
 import glob
 import os
 from dataloader_reg import get_center
+import dataloader_reg
 
 
 HII_folder_path = './reg/HII_boundaries'
@@ -24,7 +25,6 @@ print(img_data2.shape)
 img_data2 = img_data2[0][0]
 img_data2[np.isnan(img_data2)] = -1
 pspnet = PSPNet(4, 8)
-df2 = pd.read_csv('./csv/snrs.csv')
 
 pspnet.load_state_dict(torch.load('new_old_ep066-loss0.212-val_loss0.240.pth', map_location=torch.device('cpu')))
 pspnet.eval()
@@ -33,25 +33,17 @@ img = torch.from_numpy(img)
 img = torch.stack([img, img, img], 2)
 img = np.array(img)
 count = 0
-# for arr in df2.values[:, 2:]:
+
+
+
 for file in HII_reg_files:
-    # print(arr)
     x, y = get_center(file)
     count += 1
-    # x, y = int(arr[0]), int(arr[1])
     x, y = int(x), int(y)
-    # radius = int(arr[2])
-    # cv2.circle(img_data2, (x, y), radius, color=(0, 0, 255), thickness=1)
     cur = img_data2[y - 90: y + 90, x - 90:x + 90].astype(np.float32)
-    # img = cv2.circle(img, (x, y), radius, (0, 0, 255), thickness=1)
     b = img[y - 90: y + 90, x - 90:x + 90] * 255
-    # b = img[y - 9 0: y + 90, x - 90:x + 90]
-
     a = torch.from_numpy(cur)
-    print(a.size())
-    # a = torch.unsqueeze(a, 0)
     a = torch.stack([a, a, a], 0)
-
     a = torch.unsqueeze(a, 0)
     output = pspnet(a)[1][0]
     output = F.softmax(output.permute(1, 2, 0), dim=-1).cpu().detach().numpy()

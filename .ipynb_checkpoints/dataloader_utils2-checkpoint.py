@@ -3,7 +3,7 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 import pandas as pd
 import numpy as np
-
+import cv2
 size = 180
 image_shape = 16740
 hii = pd.read_csv('csv/hii_regions.csv').values[:, 2:]
@@ -147,11 +147,12 @@ def get_dataloader(path, batch_size=8, shuffle=True):
 
 
 # train, test = get_dataloader('./LMC/lmc_askap_aconf.fits')
-# for x, y in train:
+# for x, y in test:
 #     print(x.size())
-#     print(y.size())
-#     break
-# for x, y in train:
-#     print(x.size())
-#     print(y.size())
+#     for i in range(8):
+#         img = torch.squeeze(x[i], 0)
+#         img = torch.stack([img, img, img], 2).numpy()
+#         print(img.shape)
+#         cv2.imshow('1', img * 255)
+#         cv2.waitKey(0)
 #     break

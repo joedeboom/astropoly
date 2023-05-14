@@ -170,10 +170,3 @@ class PSPNet(nn.Module):
                     m.weight.data.normal_(0.0, 0.0001)
                     m.bias.data.zero_()
 
-#
-# net = PSPNet(num_classes=4, downsample_factor=8)
-# print(net)
-# zero = torch.zeros([64, 1, 180, 180])
-# output, aux_output = net(zero)
-# print(output.size())
-# print(aux_output.size())

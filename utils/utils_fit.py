@@ -6,8 +6,7 @@ from utils.utils_metrics import f_score
 
 
 def fit_one_epoch_rgb(model_train, model, loss_history, optimizer, epoch, epoch_step, epoch_step_val, gen, gen_val,
-                      Epoch,
-                      cuda, dice_loss, focal_loss, cls_weights, aux_branch, num_classes):
+                      Epoch, cuda, dice_loss, focal_loss, cls_weights, aux_branch, num_classes):
     total_loss = 0
     # total_f_score   = 0
 
@@ -25,6 +24,7 @@ def fit_one_epoch_rgb(model_train, model, loss_history, optimizer, epoch, epoch_
             with torch.no_grad():
                 imgs = imgs.type(torch.FloatTensor)
                 imgs = torch.stack([imgs, imgs, imgs], 1)
+                imgs = torch.squeeze(imgs)
                 pngs = pngs.long()
                 # labels  = torch.from_numpy(labels).type(torch.FloatTensor)
                 weights = torch.from_numpy(cls_weights)
@@ -86,9 +86,12 @@ def fit_one_epoch_rgb(model_train, model, loss_history, optimizer, epoch, epoch_
                 break
             imgs, pngs = batch
             with torch.no_grad():
-                imgs = torch.from_numpy(imgs).type(torch.FloatTensor)
+                # imgs = torch.from_numpy(imgs).type(torch.FloatTensor)
                 imgs = torch.stack([imgs, imgs, imgs], 1)
-                pngs = torch.from_numpy(pngs).long()
+                imgs = torch.squeeze(imgs)
+                # pngs = torch.from_numpy(pngs).long()
+                pngs = pngs.long()
+                
                 # labels = torch.from_numpy(labels).type(torch.FloatTensor)
                 weights = torch.from_numpy(cls_weights)
                 if cuda:

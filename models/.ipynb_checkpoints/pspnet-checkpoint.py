@@ -12,8 +12,8 @@ class Resnet(nn.Module):
         model = resnet50(pretrained)
 
         # --------------------------------------------------------------------------------------------#
-        #   根据下采样因子修改卷积的步长与膨胀系数
-        #   当downsample_factor=16的时候，我们最终获得两个特征层，shape分别是：30,30,1024和30,30,2048
+        #   Modify the step size and expansion factor of the convolution according to the downsampling factor
+        #   When downsample_factor=16, we end up with two feature layers with shapes of 30,30,1024 and 30,30,2048 respectively
         # --------------------------------------------------------------------------------------------#
         if dilate_scale == 8:
             model.layer3.apply(partial(self._nostride_dilate, dilate=2))
@@ -67,7 +67,7 @@ class _PSPModule(nn.Module):
         super(_PSPModule, self).__init__()
         out_channels = in_channels // len(pool_sizes)
         # -----------------------------------------------------#
-        #   分区域进行平均池化
+        #   Average pooling by region
         #   30, 30, 320 + 30, 30, 80 + 30, 30, 80 + 30, 30, 80 + 30, 30, 80 = 30, 30, 640
         # -----------------------------------------------------#
         self.stages = nn.ModuleList(
@@ -108,9 +108,9 @@ class PSPNet(nn.Module):
             out_channel = 2048
         # elif backbone=="mobilenet":
         #     #----------------------------------#
-        #     #   获得两个特征层
-        #     #   f4为辅助分支    [30,30,96]
-        #     #   o为主干部分     [30,30,320]
+        #     #   Obtain two feature layers
+        #     #   f4 is an auxiliary branch    [30,30,96]
+        #     #   o is main branch     [30,30,320]
         #     #----------------------------------#
         #     self.backbone = MobileNetV2(downsample_factor, pretrained)
         #     aux_channel = 96
@@ -119,8 +119,8 @@ class PSPNet(nn.Module):
             raise ValueError('Unsupported backbone - `{}`, Use mobilenet, resnet50.'.format(backbone))
 
         # --------------------------------------------------------------#
-        #	PSP模块，分区域进行池化
-        #   分别分割成1x1的区域，2x2的区域，3x3的区域，6x6的区域
+        #	PSP module, pooling by region
+        #  Divided into 1x1 area, 2x2 area, 3x3 area, 6x6 area
         #   30,30,320 -> 30,30,80 -> 30,30,21
         # --------------------------------------------------------------#
         self.master_branch = nn.Sequential(
@@ -132,7 +132,7 @@ class PSPNet(nn.Module):
 
         if self.aux_branch:
             # ---------------------------------------------------#
-            #	利用特征获得预测结果
+            #	Use of features to obtain prediction results
             #   30, 30, 96 -> 30, 30, 40 -> 30, 30, 21
             # ---------------------------------------------------#
             self.auxiliary_branch = nn.Sequential(
@@ -170,10 +170,3 @@ class PSPNet(nn.Module):
                     m.weight.data.normal_(0.0, 0.0001)
                     m.bias.data.zero_()
 
-#
-# net = PSPNet(num_classes=4, downsample_factor=8)
-# print(net)
-# zero = torch.zeros([64, 1, 180, 180])
-# output, aux_output = net(zero)
-# print(output.size())
-# print(aux_output.size())
