@@ -9,13 +9,16 @@ import torch
 from utils.data_utils import fits2matrix
 import glob
 import os
-from dataloader_reg import get_center
+from dataloader_reg import get_center, remove_skycoord_regions, contains_image
 
 image_path = './drive/MyDrive/Astropy/LMC/lmc_askap_aconf.fits'
 HII_folder_path = './drive/MyDrive/Astropy/LMC/HII_boundaries'
 SNR_folder_path = './drive/MyDrive/Astropy/LMC/SNR_boundaries'
 HII_reg_files = glob.glob(os.path.join(HII_folder_path, '*.reg'))
 SNR_reg_files = glob.glob(os.path.join(SNR_folder_path, '*.reg'))
+
+remove_skycoord_regions()
+
 #state2load = 'new_old_ep066-loss0.212-val_loss0.240.pth' xuanhan og
 state2load = '/content/logs/loss_2023_06_02_17_43_36/ep052-loss0.211-val_loss0.235.pth'
 
