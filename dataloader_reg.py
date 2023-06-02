@@ -21,21 +21,36 @@ SNR_folder_path = './drive/MyDrive/Astropy/LMC/SNR_boundaries'
 HII_reg_files = glob.glob(os.path.join(HII_folder_path, '*.reg'))
 SNR_reg_files = glob.glob(os.path.join(SNR_folder_path, '*.reg'))
 
+
 # -------------------------------------------------------------------------------------
 # Define a function to remove skycoord regions
 def remove_skycoord_regions():
+    print('removing skycoord regions')
     for file in HII_reg_files:
-        reg = Regions.read(file, format='ds9')
-        print(type(reg))
-        if type(reg) is PolygonSkyRegion:
-            HII_reg_files.remove(file)
-    
+        #reg = Regions.read(file, format='ds9')
+        #print(type(reg))
+        #if type(reg) is PolygonSkyRegion:
+        #    HII_reg_files.remove(file)
+        if not contains_image(file):
+            HII_reg_files.remove(file)        
+
+
     for file in SNR_reg_files:
-        reg = Regions.read(file, format='ds9')
-        if type(reg) is PolygonSkyRegion:
+        #reg = Regions.read(file, format='ds9')
+        #if type(reg) is PolygonSkyRegion:
+        #    SNR_reg_files.remove(file)
+        if not contains_image(file):
             SNR_reg_files.remove(file)
 
+# define a function to check if the provided region file uses an image coordinate system
+def conatins_image(fi):
+    f = open(fi)
+    for line in f:
+        if 'image' in line:
+            return true
+    return false
 
+# -------------------------------------------------------------------------------------
 
 
 
@@ -161,8 +176,6 @@ def generate_annotation():
     print('length of SNR_reg_files: ' + str(len(SNR_reg_files))) 
     print(HII_reg_files)
     print(SNR_reg_files)
-
-    print('removing skycoord regions')
     remove_skycoord_regions()
     print('length of HII_reg_files: ' + str(len(HII_reg_files)))
     print('length of SNR_reg_files: ' + str(len(SNR_reg_files)))
