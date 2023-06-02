@@ -27,7 +27,13 @@ def remove_skycoord_regions():
     for file in HII_reg_files:
         reg = Regions.read(file, format='ds9')
         if type(reg) is PolygonSkyRegion:
-        HII_reg_files.remove(file)
+            HII_reg_files.remove(file)
+    
+    for file in SNR_reg_files:
+        reg = Regions.read(file, format='ds9')
+        if type(reg) is PolygonSkyRegion:
+            SNR_reg_files.remove(file)
+
 
 
 
