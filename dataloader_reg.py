@@ -97,7 +97,7 @@ def center_arr():
 # It also returns the center of the region
 def annotate_reg(path, arr, label):
     regions = Regions.read(path, format='ds9')
-    print(regions)
+    #print(regions)
     Xs = regions[0].vertices.x
     Ys = regions[0].vertices.y
     length = len(Xs)
@@ -139,6 +139,9 @@ def generate_annotation():
     num2 = 0
     print('length of HII_reg_files: ' + str(len(HII_reg_files)))
     print('length of SNR_reg_files: ' + str(len(SNR_reg_files))) 
+    print(HII_reg_files)
+    print(SNR_reg_files)
+
     for file in HII_reg_files:
         num1 += 1
         center = annotate_reg(file, ann, 1)
