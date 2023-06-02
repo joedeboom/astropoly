@@ -11,22 +11,24 @@ import glob
 import os
 from dataloader_reg import get_center
 
-
-HII_folder_path = './reg/HII_boundaries'
-SNR_folder_path = './reg/SNR_boundaries'
+image_path = './drive/MyDrive/Astropy/LMC/lmc_askap_aconf.fits'
+HII_folder_path = './drive/MyDrive/Astropy/LMC/HII_boundaries'
+SNR_folder_path = './drive/MyDrive/Astropy/LMC/SNR_boundaries'
 HII_reg_files = glob.glob(os.path.join(HII_folder_path, '*.reg'))
 SNR_reg_files = glob.glob(os.path.join(SNR_folder_path, '*.reg'))
+#state2load = 'new_old_ep066-loss0.212-val_loss0.240.pth' xuanhan og
+state2load = '/content/logs/loss_2023_06_02_17_43_36/ep052-loss0.211-val_loss0.235.pth'
 
 colors = [(0, 0, 0), (128, 0, 0), (0, 128, 0), (128, 128, 0)]
 
-img_data2 = fits2matrix('./LMC/lmc_askap_aconf.fits')
+img_data2 = fits2matrix(image_path)
 print(img_data2.shape)
 img_data2 = img_data2[0][0]
 img_data2[np.isnan(img_data2)] = -1
 pspnet = PSPNet(4, 8)
-df2 = pd.read_csv('./csv/snrs.csv')
+df2 = pd.read_csv('./astropoly/csv/snrs.csv')
 
-pspnet.load_state_dict(torch.load('new_old_ep066-loss0.212-val_loss0.240.pth', map_location=torch.device('cpu')))
+pspnet.load_state_dict(torch.load(state2load, map_location=torch.device('cpu')))
 pspnet.eval()
 img = copy.deepcopy(img_data2).astype(np.float32)
 img = torch.from_numpy(img)
