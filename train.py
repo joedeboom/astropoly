@@ -76,7 +76,7 @@ if __name__ == "__main__":
     num_workers = 2
 
     # Create the PSPNet model
-    print('before model')
+    #print('before model')
     model = PSPNet(num_classes=num_classes, backbone=backbone, downsample_factor=downsample_factor,
                    pretrained=pretrained, aux_branch=aux_branch)
     print('model created')
@@ -116,6 +116,7 @@ if __name__ == "__main__":
         # Define the learning rate scheduler
         lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.94)
         # Get the dataloader for the training and validation data
+        print('retreiving dataloader...')
         gen, gen_val = dataloader_reg.get_dataloader('./drive/MyDrive/Astropy/LMC/lmc_askap_aconf.fits')
         # Calculate the number of steps per epoch for the training and validation data
         epoch_step = len(gen)
