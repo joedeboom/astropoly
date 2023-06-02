@@ -97,6 +97,7 @@ def center_arr():
 # It also returns the center of the region
 def annotate_reg(path, arr, label):
     regions = Regions.read(path, format='ds9')
+    print(path)
     print(regions)
     Xs = regions[0].vertices.x
     Ys = regions[0].vertices.y
