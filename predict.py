@@ -106,5 +106,5 @@ for file in HII_reg_files:
     b = cv2.addWeighted(b.astype(np.float64), 0.2, seg_img, 0.8, 0)
     b *= 255.0
     cv2.imwrite('imgs/ratio/' + str(count) + '_test.jpg', b)
-    # cv2.imshow('1', b)
+    cv2.imshow('1', b)
     # cv2.waitKey(0)
