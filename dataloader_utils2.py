@@ -6,8 +6,8 @@ import numpy as np
 import cv2
 size = 180
 image_shape = 16740
-hii = pd.read_csv('csv/hii_regions.csv').values[:, 2:]
-snrs = pd.read_csv('csv/snrs.csv').values[:-1, 2:]
+hii = pd.read_csv('./astropoly/csv/hii_regions.csv').values[:, 2:]
+snrs = pd.read_csv('./astropoly/csv/snrs.csv').values[:-1, 2:]
 
 train_snrs, test_snrs = [], []
 train_hii, test_hii = [], []
