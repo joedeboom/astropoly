@@ -20,6 +20,7 @@ import dataloader_reg  # Import region dataloader utilities
 if __name__ == "__main__":
     # Check if CUDA is available and set variable
     if torch.cuda.is_available():
+        print('cuda available')
         Cuda = True
     else:
         Cuda = False
