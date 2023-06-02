@@ -134,7 +134,12 @@ def annotate_reg(path, arr, label):
 def generate_annotation():
     ann = np.zeros([image_shape, image_shape])
     count = 0
+    
+    num1 = 0
+    num2 = 0
+    
     for file in HII_reg_files:
+        num1 += 1
         center = annotate_reg(file, ann, 1)
         if count == 4:
             count = 0
@@ -145,6 +150,7 @@ def generate_annotation():
 
     count = 0
     for file in SNR_reg_files:
+        num2 += 1
         center = annotate_reg(file, ann, 2)
         if count == 4:
             count = 0
@@ -153,6 +159,7 @@ def generate_annotation():
             train_snrs.append(center)
             count += 1
 
+    print('num1 = ' + str(num1) + '\nnum2 = ' + str(num2))
     return ann
 
 # Define a function to get the data and labels for training and testing
