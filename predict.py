@@ -9,18 +9,53 @@ import torch
 from utils.data_utils import fits2matrix
 import glob
 import os
-from dataloader_reg import get_center, remove_skycoord_regions, contains_image
+from dataloader_reg import get_center
 
 image_path = './drive/MyDrive/Astropy/LMC/lmc_askap_aconf.fits'
 HII_folder_path = './drive/MyDrive/Astropy/LMC/HII_boundaries'
 SNR_folder_path = './drive/MyDrive/Astropy/LMC/SNR_boundaries'
 HII_reg_files = glob.glob(os.path.join(HII_folder_path, '*.reg'))
 SNR_reg_files = glob.glob(os.path.join(SNR_folder_path, '*.reg'))
+#state2load = 'new_old_ep066-loss0.212-val_loss0.240.pth'                                   xuanhan og
+state2load = '/content/logs/loss_2023_06_02_17_43_36/ep052-loss0.211-val_loss0.235.pth'     #mine
+
+
+# -------------------------------------------------------------------------------------
+# Define a function to remove skycoord regions
+def remove_skycoord_regions():
+    print('removing skycoord regions')
+    count1 = 0
+    count2 = 0
+    for file in HII_reg_files:
+        #reg = Regions.read(file, format='ds9')
+        #print(type(reg))
+        #if type(reg) is PolygonSkyRegion:
+        #    HII_reg_files.remove(file)
+        if not contains_image(file):
+            HII_reg_files.remove(file)
+            count1 += 1
+
+    for file in SNR_reg_files:
+        #reg = Regions.read(file, format='ds9')
+        #if type(reg) is PolygonSkyRegion:
+        #    SNR_reg_files.remove(file)
+        if not contains_image(file):
+            SNR_reg_files.remove(file)
+            count2 += 1
+
+    print('Removed ' + str(count1) + ' files from HII and ' + str(count2) + ' files from SNR. ' + str(count1+count2) + ' items in total.')
+
+# define a function to check if the provided region file uses an image coordinate system
+def contains_image(fi):
+    f = open(fi)
+    for line in f:
+        if 'image' in line:
+            return True
+    return False
+
+# -------------------------------------------------------------------------------------
 
 remove_skycoord_regions()
-
-#state2load = 'new_old_ep066-loss0.212-val_loss0.240.pth' xuanhan og
-state2load = '/content/logs/loss_2023_06_02_17_43_36/ep052-loss0.211-val_loss0.235.pth'
 
 colors = [(0, 0, 0), (128, 0, 0), (0, 128, 0), (128, 128, 0)]
 
