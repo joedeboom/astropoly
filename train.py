@@ -76,8 +76,11 @@ if __name__ == "__main__":
     num_workers = 2
 
     # Create the PSPNet model
+    print('before model')
     model = PSPNet(num_classes=num_classes, backbone=backbone, downsample_factor=downsample_factor,
                    pretrained=pretrained, aux_branch=aux_branch)
+    print('model created')
+
     # Initialize the model weights if not using pretrained weights
     if not pretrained:
         weights_init(model)
