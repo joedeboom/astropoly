@@ -112,7 +112,7 @@ if __name__ == "__main__":
         # Define the learning rate scheduler
         lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.94)
         # Get the dataloader for the training and validation data
-        gen, gen_val = dataloader_reg.get_dataloader('./LMC/lmc_askap_aconf.fits')
+        gen, gen_val = dataloader_reg.get_dataloader('./drive/MyDrive/Astropy/LMC/lmc_askap_aconf.fits')
         # Calculate the number of steps per epoch for the training and validation data
         epoch_step = len(gen)
         epoch_step_val = len(gen_val)
