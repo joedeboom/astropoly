@@ -249,6 +249,7 @@ def get_set(path):
 # This function calls the get_set function to get the datasets, then wraps them in PyTorch DataLoader objects,
 # which can be used to iterate over the data in mini-batches
 def get_dataloader(path, batch_size=8, shuffle=True):
+    print('Inside get_dataloader(). Path: ' + path)
     train_dataset, test_dataset = get_set(path)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle, drop_last=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=shuffle, drop_last=True)
