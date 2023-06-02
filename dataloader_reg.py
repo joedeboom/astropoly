@@ -26,6 +26,7 @@ SNR_reg_files = glob.glob(os.path.join(SNR_folder_path, '*.reg'))
 def remove_skycoord_regions():
     for file in HII_reg_files:
         reg = Regions.read(file, format='ds9')
+        print(type(reg))
         if type(reg) is PolygonSkyRegion:
             HII_reg_files.remove(file)
     
