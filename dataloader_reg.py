@@ -21,6 +21,18 @@ SNR_folder_path = './drive/MyDrive/Astropy/LMC/SNR_boundaries'
 HII_reg_files = glob.glob(os.path.join(HII_folder_path, '*.reg'))
 SNR_reg_files = glob.glob(os.path.join(SNR_folder_path, '*.reg'))
 
+# -------------------------------------------------------------------------------------
+# Define a function to remove skycoord regions
+def remove_skycoord_regions():
+    for file in HII_reg_files:
+        reg = Regions.read(file, format='ds9')
+        if type(reg) is PolygonSkyRegion:
+        HII_reg_files.remove(file)
+
+
+
+
+
 # Define a function to check if a point is inside a polygon
 def point_in_polygon(x, y, poly):
     n = len(poly)
@@ -142,6 +154,11 @@ def generate_annotation():
     print('length of SNR_reg_files: ' + str(len(SNR_reg_files))) 
     print(HII_reg_files)
     print(SNR_reg_files)
+
+    print('removing skycoord regions')
+    remove_skycoord_regions()
+    print('length of HII_reg_files: ' + str(len(HII_reg_files)))
+    print('length of SNR_reg_files: ' + str(len(SNR_reg_files)))
 
     for file in HII_reg_files:
         num1 += 1
