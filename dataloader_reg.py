@@ -47,8 +47,8 @@ def contains_image(fi):
     f = open(fi)
     for line in f:
         if 'image' in line:
-            return true
-    return false
+            return True
+    return False
 
 # -------------------------------------------------------------------------------------
 
