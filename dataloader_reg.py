@@ -137,7 +137,8 @@ def generate_annotation():
     
     num1 = 0
     num2 = 0
-    
+    print('length of HII_reg_files: ' + str(len(HII_reg_files)))
+    print('length of SNR_reg_files: ' + str(len(SNR_reg_files))) 
     for file in HII_reg_files:
         num1 += 1
         center = annotate_reg(file, ann, 1)
