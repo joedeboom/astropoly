@@ -16,6 +16,8 @@ from utils.utils_fit import fit_one_epoch, fit_one_epoch_rgb  # Import function 
 import dataloader_utils2  # Import additional dataloader utilities
 import dataloader_reg  # Import region dataloader utilities
 
+import os
+
 # Main function
 if __name__ == "__main__":
     # Check if CUDA is available and set variable
@@ -26,6 +28,12 @@ if __name__ == "__main__":
         Cuda = False
 
     # Define model parameters
+    image_path = './drive/MyDrive/Astropy/LMC/lmc_askap_aconf.fits'
+    if os.path.exists(image_path):
+        print('Image path exists!')
+    else:
+        raise ValueError('Image path does not exist')    
+
     num_classes = 4  # Number of classes for the task
     backbone = "resnet50"  # Backbone network to use in the PSPNet
 
@@ -117,7 +125,7 @@ if __name__ == "__main__":
         lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.94)
         # Get the dataloader for the training and validation data
         print('retreiving dataloader...')
-        gen, gen_val = dataloader_reg.get_dataloader('./drive/MyDrive/Astropy/LMC/lmc_askap_aconf.fits')
+        gen, gen_val = dataloader_reg.get_dataloader(image_path)
         # Calculate the number of steps per epoch for the training and validation data
         epoch_step = len(gen)
         epoch_step_val = len(gen_val)
