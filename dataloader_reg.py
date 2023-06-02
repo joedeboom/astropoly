@@ -15,8 +15,8 @@ image_shape = 16740
 train_snrs, test_snrs = [], []
 train_hii, test_hii = [], []
 
-HII_folder_path = './reg/HII_boundaries'
-SNR_folder_path = './reg/SNR_boundaries'
+HII_folder_path = './drive/MyDrive/Astropy/LMC/HII_boundaries'
+SNR_folder_path = './drive/MyDrive/Astropy/LMC/SNR_boundaries'
 
 HII_reg_files = glob.glob(os.path.join(HII_folder_path, '*.reg'))
 SNR_reg_files = glob.glob(os.path.join(SNR_folder_path, '*.reg'))
