@@ -43,7 +43,7 @@ def remove_skycoord_regions():
             SNR_reg_files.remove(file)
 
 # define a function to check if the provided region file uses an image coordinate system
-def conatins_image(fi):
+def contains_image(fi):
     f = open(fi)
     for line in f:
         if 'image' in line:
