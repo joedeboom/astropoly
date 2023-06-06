@@ -26,24 +26,18 @@ def remove_skycoord_regions():
     print('removing skycoord regions')
     count1 = 0
     count2 = 0
+    removed = []
     for file in HII_reg_files:
-        #reg = Regions.read(file, format='ds9')
-        #print(type(reg))
-        #if type(reg) is PolygonSkyRegion:
-        #    HII_reg_files.remove(file)
         if not contains_image(file):
             HII_reg_files.remove(file)
+            removed.append(file)
             count1 += 1
-
     for file in SNR_reg_files:
-        #reg = Regions.read(file, format='ds9')
-        #if type(reg) is PolygonSkyRegion:
-        #    SNR_reg_files.remove(file)
         if not contains_image(file):
             SNR_reg_files.remove(file)
+            removed.append(file)
             count2 += 1
-
-    print('Removed ' + str(count1) + ' files from HII and ' + str(count2) + ' files from SNR. ' + str(count1+count2) + ' items in total.')
+    print('Removed ' + str(count1) + ' files from HII and ' + str(count2) + ' files from SNR. ' + str(count1+count2) + ' items in total:\n' + str(removed))
 
 # define a function to check if the provided region file uses an image coordinate system
 def contains_image(fi):

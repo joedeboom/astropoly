@@ -28,24 +28,18 @@ def remove_skycoord_regions():
     print('removing skycoord regions')
     count1 = 0
     count2 = 0
+    removed = []
     for file in HII_reg_files:
-        #reg = Regions.read(file, format='ds9')
-        #print(type(reg))
-        #if type(reg) is PolygonSkyRegion:
-        #    HII_reg_files.remove(file)
         if not contains_image(file):
-            HII_reg_files.remove(file)        
+            HII_reg_files.remove(file)
+            removed.append(file)
             count1 += 1
-
     for file in SNR_reg_files:
-        #reg = Regions.read(file, format='ds9')
-        #if type(reg) is PolygonSkyRegion:
-        #    SNR_reg_files.remove(file)
         if not contains_image(file):
             SNR_reg_files.remove(file)
+            removed.append(file)
             count2 += 1
-    
-    print('Removed ' + str(count1) + ' files from HII and ' + str(count2) + ' files from SNR. ' + str(count1+count2) + ' items in total.')
+    print('Removed ' + str(count1) + ' files from HII and ' + str(count2) + ' files from SNR. ' + str(count1+count2) + ' items in total:\n' + str(removed))
 
 # define a function to check if the provided region file uses an image coordinate system
 def contains_image(fi):
@@ -136,8 +130,8 @@ def center_arr():
 # It also returns the center of the region
 def annotate_reg(path, arr, label):
     regions = Regions.read(path, format='ds9')
-    print('\n'+path)
-    print(regions)
+    #print('\n'+path)
+    #print(regions)
     Xs = regions[0].vertices.x
     Ys = regions[0].vertices.y
     length = len(Xs)
@@ -177,13 +171,13 @@ def generate_annotation():
     
     num1 = 0
     num2 = 0
-    print('length of HII_reg_files: ' + str(len(HII_reg_files)))
-    print('length of SNR_reg_files: ' + str(len(SNR_reg_files))) 
-    print(HII_reg_files)
-    print(SNR_reg_files)
+    #print('length of HII_reg_files: ' + str(len(HII_reg_files)))
+    #print('length of SNR_reg_files: ' + str(len(SNR_reg_files))) 
+    #print(HII_reg_files)
+    #print(SNR_reg_files)
     remove_skycoord_regions()
-    print('length of HII_reg_files: ' + str(len(HII_reg_files)))
-    print('length of SNR_reg_files: ' + str(len(SNR_reg_files)))
+    #print('length of HII_reg_files: ' + str(len(HII_reg_files)))
+    #print('length of SNR_reg_files: ' + str(len(SNR_reg_files)))
 
     for file in HII_reg_files:
         num1 += 1
@@ -303,7 +297,6 @@ def get_set(path):
 # This function calls the get_set function to get the datasets, then wraps them in PyTorch DataLoader objects,
 # which can be used to iterate over the data in mini-batches
 def get_dataloader(path, batch_size=8, shuffle=True):
-    print('Inside get_dataloader(). Path: ' + path)
     train_dataset, test_dataset = get_set(path)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle, drop_last=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=shuffle, drop_last=True)
